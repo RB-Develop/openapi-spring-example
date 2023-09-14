@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.example</groupId>
+        <artifactId>openapi-maven</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>client-library</artifactId>
+
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <default.package>com.cboe.clear.example</default.package>
+        <version.openapi-generator>7.0.0</version.openapi-generator>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>${version.openapi-generator}</version>
+                <configuration>
+                    <inputSpec>${project.basedir}/../api-specs/server-app-api.yaml</inputSpec>
+                    <skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
+                    <generateApis>true</generateApis>
+                    <generateApiDocumentation>false</generateApiDocumentation>
+                    <generateApiTests>false</generateApiTests>
+                    <generateModels>true</generateModels>
+                    <generateModelDocumentation>false</generateModelDocumentation>
+                    <generateModelTests>false</generateModelTests>
+                    <output>${project.build.directory}/generated-sources</output>
+                    <configOptions>
+                        <oas3>true</oas3>
+                        <java8>true</java8>
+                        <dateLibrary>java8</dateLibrary>
+                        <openApiNullable>false</openApiNullable>
+                        <useJakartaEe>true</useJakartaEe>
+                        <useTags>true</useTags>
+                        <useSpringController>true</useSpringController>
+                        <useSpringfox>false</useSpringfox>
+                    </configOptions>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>generate-client-code</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <generatorName>java</generatorName>
+                            <library>resttemplate</library>
+                            <skipValidateSpec>true</skipValidateSpec>
+                            <generateSupportingFiles>true</generateSupportingFiles>
+                            <supportingFilesToGenerate>
+                                ApiClient.java,JavaTimeFormatter.java,Authentication.java,RFC3339DateFormat.java
+                            </supportingFilesToGenerate>
+                            <output>${project.build.directory}/generated-sources</output>
+                            <modelPackage>${default.package}.client.hello.world.model</modelPackage>
+                            <apiPackage>${default.package}.client.hello.world.api</apiPackage>
+                            <configOptions>
+                                <generateClientAsBean>true</generateClientAsBean>
+                                <sourceFolder>main/java</sourceFolder>
+                                <!-- Do not include any validation with the client -->
+                                <useBeanValidation>false</useBeanValidation>
+                                <performBeanValidation>false</performBeanValidation>
+                                <interfaceOnly>false</interfaceOnly>
+                                <useOptional>false</useOptional>
+                                <!-- Make the models serializable -->
+                                <serializableModel>true</serializableModel>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

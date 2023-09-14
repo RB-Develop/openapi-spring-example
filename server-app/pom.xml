@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.example</groupId>
+        <artifactId>openapi-maven</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>server-app</artifactId>
+
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <default.package>com.cboe.clear.example</default.package>
+        <version.openapi-generator>7.0.0</version.openapi-generator>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>8.0.1.Final</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>${version.openapi-generator}</version>
+                <configuration>
+                    <inputSpec>${project.basedir}/../api-specs/server-app-api.yaml</inputSpec>
+                    <skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
+                    <generateApis>true</generateApis>
+                    <generateApiDocumentation>false</generateApiDocumentation>
+                    <generateApiTests>false</generateApiTests>
+                    <generateModels>true</generateModels>
+                    <generateModelDocumentation>false</generateModelDocumentation>
+                    <generateModelTests>false</generateModelTests>
+                    <output>${project.build.directory}/generated-sources</output>
+                    <configOptions>
+                        <oas3>true</oas3>
+                        <java8>true</java8>
+                        <dateLibrary>java8</dateLibrary>
+                        <openApiNullable>false</openApiNullable>
+                        <useJakartaEe>true</useJakartaEe>
+                        <useTags>true</useTags>
+                        <useSpringController>true</useSpringController>
+                        <useSpringfox>false</useSpringfox>
+                    </configOptions>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>generate-server-code</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <generatorName>spring</generatorName>
+                            <library>spring-boot</library>
+                            <generateSupportingFiles>false</generateSupportingFiles>
+                            <modelPackage>${default.package}.server.hello.world.model</modelPackage>
+                            <apiPackage>${default.package}.server.hello.world.api</apiPackage>
+                            <configOptions>
+                                <sourceFolder>main/java</sourceFolder>
+                                <!-- Enable bean validation using javax validation and hibernate validator  -->
+                                <useBeanValidation>true</useBeanValidation>
+                                <performBeanValidation>true</performBeanValidation>
+                                <interfaceOnly>true</interfaceOnly>
+                                <skipDefaultInterface>true</skipDefaultInterface>
+
+                                <!-- Use delegate pattern to separate implementation from API definition  -->
+                                <delegatePattern>false</delegatePattern>
+                                <useOptional>false</useOptional>
+                                <!-- Place required parameters first in models  -->
+                                <sortModelPropertiesByRequiredFlag>true</sortModelPropertiesByRequiredFlag>
+                                <sortParamsByRequiredFlag>true</sortParamsByRequiredFlag>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
